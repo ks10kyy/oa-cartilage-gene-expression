@@ -1,0 +1,35 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+
+# Jupyter
+.ipynb_checkpoints/
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+
+# Logs and temporary files
+logs/
+*.log
+*.tmp
+
+# Windows metadata
+*:Zone.Identifier
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Original source data (obtainable from GEO)
+data/raw/
+
+# Unnecessary intermediate data
+data/processed/counts_GPL18573_filtered.csv
+data/processed/filtered_expression*.csv
+data/processed/metadata.csv
+data/processed/metadata_GPL18573.csv
+data/processed/metadata_with_platform.csv
+notebooks/
