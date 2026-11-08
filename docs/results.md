@@ -1,158 +1,168 @@
-# Results
+# 解析結果（Results）
 
-## 1. Differential Gene Expression Analysis
+## 1. 発現変動遺伝子解析
 
-Differential gene expression analysis was performed using two DESeq2 models: a primary model (`~ group`) and an adjusted model (`~ age_scaled + sex + group`).
+DESeq2を使用し、2種類の統計モデルによる発現変動遺伝子解析を実施しました。使用したモデルは、主解析モデル（`~ group`）と調整モデル（`~ age_scaled + sex + group`）です。
 
-Genes with an adjusted p-value (padj) below 0.1 were considered statistically significant.
+調整済みp値（padj）が0.1未満の遺伝子を、統計的に有意な遺伝子として扱いました。
 
-| Analysis | Significant genes |
+| 解析モデル | 有意な遺伝子数 |
 |---|---:|
-| Primary model | 7,913 |
-| Adjusted model | 4,809 |
-| Significant in both models | 4,445 |
+| 主解析モデル | 7,913 |
+| 調整モデル | 4,809 |
+| 両方のモデルで有意な遺伝子 | 4,445 |
 
-Among the 4,445 genes significant in both models, 4,444 showed concordant log2 fold-change directions.
+両方のモデルで有意となった4,445遺伝子のうち、4,444遺伝子でlog2 Fold Change（log2FC）の方向性が一致していました。
 
-Comparison of log2 fold-change directions across the two models showed:
+2つのモデル間でlog2FCの方向性を比較した結果は、以下のとおりです。
 
-- Consistent direction: 18,193 genes (76.73%)
-- Opposite direction: 2,807 genes (11.84%)
-- Missing estimates: 2,707 genes (11.42%)
-- Zero direction: 3 genes (0.01%)
+- **方向性が一致：** 18,193遺伝子（76.73%）
+- **方向性が反対：** 2,807遺伝子（11.84%）
+- **推定値が欠損：** 2,707遺伝子（11.42%）
+- **方向性がゼロ：** 3遺伝子（0.01%）
 
-The adjusted model identified fewer significant genes than the primary model. This indicates that accounting for age and sex changed the statistical results.
+調整モデルでは、主解析モデルと比較して有意な遺伝子数が減少しました。このことから、年齢および性別を考慮することで、統計解析の結果が変化したことが分かります。
 
-However, genes significant in both models should be considered candidate genes for further investigation, rather than confirmed OA-specific genes.
+ただし、両方のモデルで有意となった遺伝子についても、OAに特異的な遺伝子として確定したものではなく、今後さらに調査すべき候補遺伝子として扱う必要があります。
 
-## 2. Principal Component Analysis (PCA)
+## 2. 主成分分析（PCA）
 
-PCA was performed using variance-stabilized expression data and the 500 most variable genes.
+分散安定化変換を適用した遺伝子発現データを使用し、発現量の変動が大きい上位500遺伝子を対象として主成分分析（PCA）を実施しました。
 
-The first two principal components explained:
+上位2つの主成分が説明する分散の割合は、以下のとおりです。
 
-| Component | Explained variance |
+| 主成分 | 寄与率 |
 |---|---:|
-| PC1 | 47.0% |
-| PC2 | 15.6% |
-| Combined | 62.6% |
+| PC1（第1主成分） | 47.0% |
+| PC2（第2主成分） | 15.6% |
+| 合計 | 62.6% |
 
-The relationship between age and PC1 was examined using Spearman correlation.
+年齢とPC1との関連について、Spearmanの順位相関分析を用いて評価しました。
 
-- Spearman's rho: 0.601
-- P-value: 0.00503
+- **Spearmanの順位相関係数（rho）：** 0.601
+- **p値：** 0.00503
 
-This indicated a positive association between age and PC1 in the analyzed samples.
+この結果から、解析対象のサンプルにおいて、年齢とPC1の間に正の関連が認められました。
 
-An exploratory linear regression model was also fitted:
+さらに、探索的な解析として、以下の線形回帰モデルを適用しました。
 
 `PC1 ~ age + group + sex`
 
-The estimated coefficients were:
+推定された回帰係数は、以下のとおりです。
 
-| Variable | Coefficient | P-value |
+| 変数 | 回帰係数 | p値 |
 |---|---:|---:|
-| Age | -0.0040 | 0.9858 |
-| Group (OA vs Normal) | +40.21 | 0.000033 |
-| Sex (M vs F) | +3.47 | 0.5047 |
+| 年齢（Age） | -0.0040 | 0.9858 |
+| 群（OA vs Normal） | +40.21 | 0.000033 |
+| 性別（M vs F） | +3.47 | 0.5047 |
 
-The overall model R-squared was 0.8143.
+モデル全体の決定係数（R-squared）は0.8143でした。
 
-The group coefficient was statistically significant in this fitted model. However, this result should be interpreted cautiously because age and disease group were strongly associated in the dataset.
+この回帰モデルでは、群（OA vs Normal）の回帰係数が統計的に有意でした。ただし、解析対象データでは年齢と疾患群との間に強い関連が認められているため、この結果は慎重に解釈する必要があります。
 
-## 3. Age and Group Distribution
+## 3. 年齢と群の分布
 
-The age distribution differed substantially between the two groups.
+2つの群の間では、年齢分布に大きな違いが認められました。
 
-| Statistic | Normal | OA |
+| 統計量 | Normal群 | OA群 |
 |---|---:|---:|
-| Sample size | 10 | 10 |
-| Minimum age | 18 | 51 |
-| Median age | 36.5 | 64.5 |
-| Mean age | 39.7 | 62.7 |
-| Maximum age | 61 | 71 |
+| サンプル数 | 10 | 10 |
+| 最小年齢 | 18歳 | 51歳 |
+| 中央値 | 36.5歳 | 64.5歳 |
+| 平均年齢 | 39.7歳 | 62.7歳 |
+| 最大年齢 | 61歳 | 71歳 |
 
-The age ranges overlapped only between 51 and 61 years.
+両群の年齢範囲が重複していたのは、51～61歳の範囲に限られていました。
 
-The Pearson correlation between age and OA group status was 0.739 (p = 0.000199).
+年齢とOA群の状態との間のPearson相関係数は0.739（p = 0.000199）でした。
 
-These findings indicate substantial age imbalance and limited overlap between the groups. Consequently, it is difficult to distinguish the effects associated with OA from those associated with age.
+これらの結果から、両群の間には大きな年齢の偏りがあり、年齢分布の重複も限定的であることが分かります。
 
-## 4. Gene Ontology (GO) Enrichment Analysis
+そのため、OAに関連する影響と年齢に関連する影響とを明確に区別することは困難です。
 
-GO Biological Process enrichment analysis was performed separately for genes with concordant positive and negative log2 fold changes in the two DESeq2 models.
+## 4. Gene Ontology（GO）エンリッチメント解析
 
-### 4.1 OA-Up Gene Set
+2つのDESeq2モデルにおいて、log2FCの方向性が一致した遺伝子を対象に、GO Biological Process（生物学的プロセス）のエンリッチメント解析をそれぞれ実施しました。
 
-A total of 2,164 genes were included before identifier conversion, corresponding to 1,982 mapped Entrez Gene IDs.
+### 4.1 OA-up遺伝子群
 
-The analysis identified 86 enriched GO Biological Process terms.
+遺伝子IDの変換前には、合計2,164遺伝子が含まれており、そのうち1,982遺伝子がEntrez Gene IDに変換されました。
 
-Representative enriched terms included:
+解析の結果、86個のGO Biological Process用語が有意に濃縮されていました。
 
-- Extracellular matrix organization
-- Extracellular structure organization
-- Collagen fibril organization
-- Integrin-mediated signaling pathway
-- Glycoprotein metabolic process
-- Bone development
+代表的な濃縮用語は、以下のとおりです。
 
-These results suggest that genes associated with extracellular matrix organization and remodeling were overrepresented among the OA-up candidates.
+- 細胞外マトリックスの構成・形成（Extracellular matrix organization）
+- 細胞外構造の構成・形成（Extracellular structure organization）
+- コラーゲン線維の構成・形成（Collagen fibril organization）
+- インテグリンを介したシグナル伝達経路（Integrin-mediated signaling pathway）
+- 糖タンパク質の代謝過程（Glycoprotein metabolic process）
+- 骨の発生（Bone development）
 
-### 4.2 OA-Down Gene Set
+これらの結果から、細胞外マトリックスの構成や再構築に関連する遺伝子が、OA-up候補遺伝子群において相対的に多く含まれていることが示唆されました。
 
-A total of 2,280 genes were included before identifier conversion, corresponding to 2,009 mapped Entrez Gene IDs.
+### 4.2 OA-down遺伝子群
 
-The analysis identified 105 enriched GO Biological Process terms.
+遺伝子IDの変換前には、合計2,280遺伝子が含まれており、そのうち2,009遺伝子がEntrez Gene IDに変換されました。
 
-Representative enriched terms included:
+解析の結果、105個のGO Biological Process用語が有意に濃縮されていました。
 
-- Cytoplasmic translation
-- RNA splicing
-- mRNA processing
-- Regulation of RNA splicing
-- Ribonucleoprotein complex biogenesis
-- mRNA transport
+代表的な濃縮用語は、以下のとおりです。
 
-These results indicate overrepresentation of genes associated with RNA processing and translation-related biological processes among the OA-down candidates.
+- 細胞質における翻訳（Cytoplasmic translation）
+- RNAスプライシング（RNA splicing）
+- mRNAプロセシング（mRNA processing）
+- RNAスプライシングの調節（Regulation of RNA splicing）
+- リボ核タンパク質複合体の生合成（Ribonucleoprotein complex biogenesis）
+- mRNA輸送（mRNA transport）
 
-The enrichment analysis used a shared testable background of 21,003 gene symbols, of which 18,503 mapped to Entrez Gene IDs. The effective GO-annotated background was smaller because not all mapped genes had annotations for the analyzed ontology.
+これらの結果から、RNAのプロセシングや翻訳に関連する生物学的プロセスに関与する遺伝子が、OA-down候補遺伝子群において相対的に多く含まれていることが示されました。
 
-## 5. Cartilage-Related Gene Expression
+エンリッチメント解析では、共通の検定可能な背景遺伝子群として21,003個の遺伝子シンボルを使用し、そのうち18,503個がEntrez Gene IDに変換されました。
 
-Five cartilage-related genes were examined using normalized expression counts.
+すべての遺伝子がGOアノテーションを持つわけではないため、実際にGOエンリッチメント計算で使用された背景遺伝子群は、これらの対応付け済み遺伝子の総数よりも少なくなっています。
 
-Four genes showed increased expression in OA samples and were statistically significant in the adjusted DESeq2 model.
+## 5. 軟骨関連遺伝子の発現量
 
-| Gene | Adjusted log2FC | Adjusted padj | Approximate fold change |
+正規化カウント値を使用して、軟骨に関連する5つの遺伝子の発現量を調べました。
+
+4つの遺伝子でOA群における推定発現量の増加が認められ、調整モデルにおいて統計的に有意でした。
+
+| 遺伝子 | 調整モデルのlog2FC | 調整モデルのpadj | おおよその発現倍率 |
 |---|---:|---:|---:|
-| MMP13 | +4.218 | 5.45 × 10⁻⁹ | 18.6 |
-| ADAMTS5 | +2.903 | 1.95 × 10⁻⁶ | 7.5 |
-| COL2A1 | +3.019 | 0.0193 | 8.1 |
-| COMP | +1.200 | 0.0102 | 2.3 |
-| ACAN | -0.015 | 0.9707 | 1.0 |
+| MMP13 | +4.218 | 5.45 × 10⁻⁹ | 18.6倍 |
+| ADAMTS5 | +2.903 | 1.95 × 10⁻⁶ | 7.5倍 |
+| COL2A1 | +3.019 | 0.0193 | 8.1倍 |
+| COMP | +1.200 | 0.0102 | 2.3倍 |
+| ACAN | -0.015 | 0.9707 | 1.0倍 |
 
-The approximate fold changes were calculated as \(2^{\text{log2FC}}\).
+おおよその発現倍率は、以下の式を用いて算出しました。
 
-MMP13 and ADAMTS5, which encode enzymes associated with extracellular matrix degradation, showed increased estimated expression in OA samples.
+\[
+\text{Fold Change} = 2^{\text{log2FC}}
+\]
 
-COL2A1 and COMP, which encode cartilage-associated extracellular matrix proteins, also showed increased estimated expression.
+細胞外マトリックスの分解に関連する酵素をコードするMMP13およびADAMTS5では、OA群において推定発現量の増加が認められました。
 
-In contrast, ACAN did not show a statistically significant expression difference in either model.
+また、軟骨の細胞外マトリックスを構成するタンパク質をコードするCOL2A1およびCOMPについても、推定発現量の増加が認められました。
 
-These findings suggest that OA cartilage may exhibit changes in both matrix-degrading enzymes and cartilage-associated matrix components.
+一方、ACANについては、どちらのモデルにおいても統計的に有意な発現量の差は認められませんでした。
 
-**Figure:** `results/cartilage_marker_expression.png`
+これらの結果から、OA軟骨では、マトリックス分解酵素と軟骨関連マトリックス構成成分の両方に発現変動が生じている可能性が示唆されました。
 
-The figure displays normalized expression counts for all five genes across the Normal and OA samples.
+**図：** `results/cartilage_marker_expression.png`
 
-## 6. Summary of Main Findings
+この図は、Normal群およびOA群の全サンプルについて、5つの遺伝子の正規化発現量を示しています。
 
-The analysis identified several notable patterns:
+## 6. 主な解析結果のまとめ
 
-1. Differential expression analysis identified thousands of statistically significant genes, with fewer genes remaining significant after adjustment for age and sex.
-2. PCA showed substantial variation in gene expression associated with sample differences, and PC1 was positively correlated with age.
-3. GO enrichment analysis highlighted extracellular matrix-related processes among OA-up candidates and RNA processing and translation-related processes among OA-down candidates.
-4. MMP13, ADAMTS5, COL2A1, and COMP showed increased estimated expression in OA samples, while ACAN showed no statistically significant difference.
+今回の解析では、以下のような特徴的な結果が得られました。
 
-Overall, the findings suggest extensive gene expression differences between normal and OA cartilage. However, the strong age imbalance and small sample size mean that these results should be interpreted as exploratory associations rather than definitive evidence of OA-specific biological mechanisms.
+1. 発現変動遺伝子解析では、数千の統計的に有意な遺伝子が特定されました。一方、年齢と性別を調整した後では、有意性が維持される遺伝子数が減少しました。
+2. PCAでは、サンプル間の遺伝子発現に大きなばらつきが認められ、PC1と年齢との間に正の相関が認められました。
+3. GOエンリッチメント解析では、OA-up候補遺伝子群において細胞外マトリックス関連のプロセスが、OA-down候補遺伝子群においてRNAプロセシングおよび翻訳関連のプロセスが、それぞれ多く含まれていました。
+4. MMP13、ADAMTS5、COL2A1およびCOMPでは、OA群における推定発現量の増加が認められました。一方、ACANでは統計的に有意な発現量の差は認められませんでした。
+
+総合すると、正常軟骨とOA軟骨の間には、広範な遺伝子発現の違いが存在することが示唆されました。
+
+ただし、年齢の大きな偏りとサンプル数の少なさを考慮すると、今回の結果はOAに特異的な生物学的メカニズムを確定的に示すものではなく、探索的な関連性を示す結果として解釈する必要があります。
