@@ -1,125 +1,128 @@
-# Methods
+# 解析方法（Methods）
 
-## 1. Dataset and Sample Selection
+## 1. データセットとサンプルの選定
 
-This project analyzed gene expression differences between normal and osteoarthritis (OA) human articular cartilage.
+本プロジェクトでは、ヒトの正常関節軟骨と変形性関節症（Osteoarthritis：OA）軟骨における遺伝子発現の違いを解析しました。
 
-The dataset was obtained from the NCBI Gene Expression Omnibus (GEO):
+データセットは、NCBI Gene Expression Omnibus（GEO）から取得しました。
 
-- **GEO accession:** GSE114007
-- **Platform:** GPL18573
-- **Groups:** Normal cartilage and OA cartilage
-- **Final sample size:** 20 samples (10 Normal and 10 OA)
+- **GEOアクセッション番号：** GSE114007
+- **プラットフォーム：** GPL18573
+- **解析群：** 正常軟骨群（Normal）およびOA軟骨群（OA）
+- **最終サンプル数：** 20サンプル（Normal 10サンプル、OA 10サンプル）
 
-Samples were selected based on the GPL18573 platform to maintain platform consistency in the analysis.
+解析におけるプラットフォームの一貫性を保つため、GPL18573に該当するサンプルを選定しました。
 
-The final expression count matrix contained 23,710 genes across 20 samples.
+最終的な遺伝子発現カウント行列には、20サンプルにわたる23,710遺伝子が含まれています。
 
-Sample metadata included:
-- Group (Normal or OA)
-- Age
-- Sex
+サンプルのメタデータには、以下の情報を含めました。
 
-## 2. Data Preprocessing
+- 群（NormalまたはOA）
+- 年齢
+- 性別
 
-Raw gene expression counts and sample metadata were prepared for downstream analysis.
+## 2. データの前処理
 
-The following checks were performed:
+下流の解析に使用するため、遺伝子発現の生カウントデータとサンプルのメタデータを整備しました。
 
-- Verification of sample identifiers between the expression matrix and metadata.
-- Verification of gene identifiers and duplicate gene symbols.
-- Verification that count values were non-negative integers.
-- Confirmation that the final dataset contained 10 Normal and 10 OA samples.
+以下の項目について確認を行いました。
 
-The resulting count matrix was used as input for differential expression analysis with DESeq2.
+- 遺伝子発現行列とメタデータ間で、サンプル識別子が一致していること。
+- 遺伝子識別子および遺伝子シンボルの重複がないこと。
+- カウント値が0以上の整数であること。
+- 最終データセットにNormal 10サンプル、OA 10サンプルが含まれていること。
 
-## 3. Differential Gene Expression Analysis
+前処理後のカウント行列を、DESeq2による発現変動解析の入力データとして使用しました。
 
-Differential gene expression analysis was performed using the R package **DESeq2**.
+## 3. 発現変動遺伝子解析
 
-Two statistical models were evaluated.
+発現変動遺伝子解析には、Rパッケージの**DESeq2**を使用しました。
 
-### 3.1 Primary Model
+2種類の統計モデルを用いて解析を行いました。
 
-The primary model was:
+### 3.1 主解析モデル（Primary Model）
+
+主解析モデルには、以下の式を使用しました。
 
 `~ group`
 
-This model compared OA cartilage with normal cartilage without adjusting for age or sex.
+このモデルでは、年齢や性別による調整を行わず、OA軟骨群と正常軟骨群の遺伝子発現を比較しました。
 
-The contrast was specified as:
+比較条件（Contrast）は、以下のように設定しました。
 
 `OA vs Normal`
 
-Therefore:
-- Positive log2 fold change (log2FC): higher estimated expression in OA.
-- Negative log2 fold change (log2FC): lower estimated expression in OA.
+したがって、log2 Fold Change（log2FC）は以下のように解釈します。
 
-### 3.2 Adjusted Model
+- **log2FCが正の場合：** OA群で発現量が高い傾向を示す。
+- **log2FCが負の場合：** OA群で発現量が低い傾向を示す。
 
-A second model was used to account for potential differences in age and sex:
+### 3.2 調整モデル（Adjusted Model）
+
+年齢および性別による潜在的な影響を考慮するため、2つ目のモデルを使用しました。
 
 `~ age_scaled + sex + group`
 
-Age was standardized using R's `scale()` function before fitting the model.
+モデルの適用前に、Rの`scale()`関数を使用して年齢を標準化しました。
 
-This model estimated the association between group and gene expression while adjusting for age and sex.
+このモデルでは、年齢と性別の影響を統計的に調整したうえで、群と遺伝子発現との関連を推定しました。
 
-### 3.3 Statistical Significance
+### 3.3 統計的有意性の判定
 
-Adjusted p-values (Benjamini-Hochberg correction) were used to assess statistical significance.
+統計的有意性の評価には、Benjamini-Hochberg法による多重検定補正後のp値（調整済みp値：padj）を使用しました。
 
-Genes with an adjusted p-value (padj) below 0.1 were considered statistically significant for the differential expression comparisons.
+調整済みp値（padj）が0.1未満の遺伝子を、発現変動解析における統計的有意な遺伝子として扱いました。
 
-The results of the two models were compared to identify genes that remained significant across both analyses and to examine consistency in their estimated expression directions.
+2つのモデルの解析結果を比較し、両方の解析で有意性が維持された遺伝子を特定するとともに、推定された発現変動の方向性が一致しているかを評価しました。
 
-## 4. Principal Component Analysis (PCA)
+## 4. 主成分分析（PCA）
 
-Principal Component Analysis (PCA) was performed to explore variation in gene expression across samples.
+サンプル間の遺伝子発現のばらつきを調べるため、主成分分析（Principal Component Analysis：PCA）を実施しました。
 
-Variance-stabilizing transformation (VST) was applied using DESeq2:
+DESeq2を使用して、分散安定化変換（Variance Stabilizing Transformation：VST）を適用しました。
 
 `vst(dds, blind = FALSE)`
 
-The top 500 most variable genes were used for PCA visualization.
+PCAによる可視化には、発現量の変動が大きい上位500遺伝子を使用しました。
 
-Samples were plotted according to:
-- Group (Normal or OA)
-- Sex
+各サンプルを以下の情報に基づいてプロットしました。
 
-PCA coordinates were also examined in relation to age.
+- 群（NormalまたはOA）
+- 性別
 
-Spearman correlation and linear regression were used as exploratory approaches to investigate associations between age, group, sex, and the first principal component (PC1).
+また、PCAの座標と年齢との関連についても調べました。
 
-## 5. Gene Ontology (GO) Enrichment Analysis
+年齢、群、性別と第1主成分（PC1）との関連を探索的に評価するため、Spearmanの順位相関分析および線形回帰分析を実施しました。
 
-Functional enrichment analysis was performed using the R package **clusterProfiler** and the annotation package **org.Hs.eg.db**.
+## 5. Gene Ontology（GO）エンリッチメント解析
 
-The analysis focused on Gene Ontology Biological Process (GO BP) terms.
+機能的なエンリッチメント解析には、Rパッケージの**clusterProfiler**およびアノテーションパッケージの**org.Hs.eg.db**を使用しました。
 
-Genes with concordant expression directions in the primary and adjusted models were separated into two groups:
+解析対象は、Gene OntologyのBiological Process（GO BP：生物学的プロセス）としました。
 
-- OA-up: genes with positive log2FC in both models.
-- OA-down: genes with negative log2FC in both models.
+主解析モデルと調整モデルの両方で、発現変動の方向性が一致した遺伝子を、以下の2群に分類しました。
 
-Gene symbols were converted to Entrez Gene IDs using `bitr()`.
+- **OA-up：** 両方のモデルでlog2FCが正となった遺伝子。
+- **OA-down：** 両方のモデルでlog2FCが負となった遺伝子。
 
-The background universe consisted of genes with non-missing p-values in both differential expression models that could be mapped to the annotation database.
+`bitr()`関数を使用して、遺伝子シンボルをEntrez Gene IDに変換しました。
 
-GO enrichment was performed using `enrichGO()` with:
+背景遺伝子群（Background Universe）には、両方の発現変動解析モデルでp値が欠損しておらず、かつアノテーションデータベースに対応付けることができた遺伝子を使用しました。
 
-- Ontology: Biological Process (BP)
-- Multiple testing correction: Benjamini-Hochberg
-- P-value cutoff: 0.05
-- Q-value cutoff: 0.20
+GOエンリッチメント解析には`enrichGO()`関数を使用し、以下の条件を設定しました。
 
-GO enrichment results were visualized using dot plots.
+- **オントロジー：** Biological Process（BP）
+- **多重検定補正：** Benjamini-Hochberg法
+- **p値の閾値：** 0.05
+- **q値の閾値：** 0.20
 
-Because not all genes have GO annotations, the effective background used for individual enrichment calculations could be smaller than the total number of mapped background genes.
+GOエンリッチメント解析の結果は、ドットプロットを用いて可視化しました。
 
-## 6. Cartilage-Related Gene Expression Visualization
+すべての遺伝子がGOアノテーションを持つわけではないため、個々のエンリッチメント計算で実際に使用される背景遺伝子群のサイズは、アノテーションに対応付けられた背景遺伝子の総数よりも小さくなる場合があります。
 
-Normalized expression counts from DESeq2 were used to visualize five cartilage-related genes:
+## 6. 軟骨関連遺伝子の発現量の可視化
+
+DESeq2によって算出された正規化カウント値を使用して、軟骨に関連する以下の5つの遺伝子の発現量を可視化しました。
 
 - MMP13
 - ADAMTS5
@@ -127,26 +130,26 @@ Normalized expression counts from DESeq2 were used to visualize five cartilage-r
 - COMP
 - ACAN
 
-Boxplots and individual sample points were generated using **ggplot2**.
+**ggplot2**を使用して、箱ひげ図と各サンプルの個別データ点を作成しました。
 
-The expression values were displayed on a logarithmic (base 10) scale to facilitate visualization across different expression ranges.
+異なる発現量の範囲を比較しやすくするため、発現量は底が10の対数スケールで表示しました。
 
-These plots were used to compare expression patterns between Normal and OA samples.
+これらの図を用いて、Normal群とOA群の間で遺伝子発現パターンを比較しました。
 
-## 7. Software and Tools
+## 7. 使用したソフトウェアおよびツール
 
-The analysis was performed using:
+解析には、以下のソフトウェアおよびパッケージを使用しました。
 
-| Software / Package | Version |
+| ソフトウェア／パッケージ | バージョン |
 |---|---|
 | R | 4.5.2 |
 | DESeq2 | 1.50.2 |
 | Python | 3.14.4 |
 | JupyterLab | 4.6.3 |
-| clusterProfiler | Bioconductor package |
-| org.Hs.eg.db | Bioconductor package |
-| ggplot2 | R package |
-| dplyr | R package |
-| tidyr | R package |
+| clusterProfiler | Bioconductorパッケージ |
+| org.Hs.eg.db | Bioconductorパッケージ |
+| ggplot2 | Rパッケージ |
+| dplyr | Rパッケージ |
+| tidyr | Rパッケージ |
 
-The analysis environment was WSL Ubuntu on Windows 11.
+解析環境には、Windows 11上のWSL Ubuntuを使用しました。
