@@ -134,10 +134,15 @@ bioinformatics/
 
 各解析とデータ管理の詳細は、以下を参照してください。
 
-- [解析手法（analytics）](docs/analytics/)
-- [解析結果（Results）](docs/results.md)
-- [考察・解析上の制約（Discussion）](docs/discussion.md)
-- [参考文献（References）](docs/references.md)
+[データ分析TOP（analytics）](docs/analytics/)
+- [解析手法（methods）](docs/analytics/methods.md)
+- [解析結果（Results）](docs/analytics/results.md)
+- [考察・解析上の制約（Discussion）](docs/analytics/discussion.md)
+- [参考文献（References）](docs/analytics/references.md)
+[データ管理TOP（data_management）](docs/data_management/)
+- [AWS構築・データ移行](docs/data_management/AWS構築・データ移行.md)
+- [データベース設計](docs/data_management/データベース設計.md)
+- [問題と改善方法](docs/data_management/問題と改善方法.md)
 
 ## 9. 今後の展望
 
