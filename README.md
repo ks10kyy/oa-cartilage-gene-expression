@@ -132,9 +132,9 @@ bioinformatics/
 
 ## 8. 詳細資料
 
-各解析の詳細は以下を参照してください。
+各解析とデータ管理の詳細は、以下を参照してください。
 
-- [解析手法（Methods）](docs/methods.md)
+- [解析手法（analytics）](docs/analytics/)
 - [解析結果（Results）](docs/results.md)
 - [考察・解析上の制約（Discussion）](docs/discussion.md)
 - [参考文献（References）](docs/references.md)
