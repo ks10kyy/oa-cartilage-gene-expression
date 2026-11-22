@@ -139,6 +139,7 @@ bioinformatics/
 - [解析結果（Results）](docs/analytics/results.md)
 - [考察・解析上の制約（Discussion）](docs/analytics/discussion.md)
 - [参考文献（References）](docs/analytics/references.md)
+
 [データ管理TOP（data_management）](docs/data_management/)
 - [AWS構築・データ移行](docs/data_management/AWS構築・データ移行.md)
 - [データベース設計](docs/data_management/データベース設計.md)
