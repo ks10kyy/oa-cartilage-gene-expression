@@ -34,15 +34,45 @@
 全体構成を示します。
 
 ```mermaid
+
 flowchart TD
-    A["遺伝子発現データ分析<br/>Python・R"] --> B["分析結果CSV"]
-    B --> C["Amazon S3<br/>ファイル保管"]
-    B --> D["ローカル PostgreSQL"]
-    D --> E["pg_dump<br/>バックアップ"]
-    E --> F["pg_restore"]
-    F --> G["Amazon RDS<br/>PostgreSQL"]
-    G --> H["SQLによる検証"]
-     ```mermaid
+    A["NCBI GEO<br/>GSE114007<br/>正常・OA軟骨の遺伝子発現データ"]
+
+    subgraph ANALYSIS["① データ分析"]
+        B["Python・pandas<br/>データ前処理"]
+        C["R・DESeq2<br/>差次的遺伝子発現解析"]
+        D["PCA・GO解析<br/>データ可視化・生物学的解釈"]
+        E["分析結果の出力<br/>正規化カウント・解析結果"]
+        B --> C --> D --> E
+    end
+
+    subgraph DB["② データ管理"]
+        F["データベース用CSV作成"]
+        G[("ローカル PostgreSQL<br/>oa_cartilage_db")]
+        H["SQLによるデータ検索・集計"]
+        I["データ検証<br/>件数・欠損・重複・値の確認"]
+        F --> G --> H --> I
+    end
+
+    subgraph CLOUD["③ クラウド管理・移行"]
+        J["pg_dump<br/>ローカルDBのバックアップ"]
+        K[("Amazon RDS<br/>PostgreSQL")]
+        L["pg_restore<br/>バックアップの復元"]
+        M["移行後の検証<br/>テーブル・レコード数・解析結果の照合"]
+        J --> L --> K --> M
+    end
+
+    E --> F
+    I --> J
+
+    S3["Amazon S3<br/>ファイル保存・管理"]
+    IAM["AWS IAM<br/>アクセス権限管理"]
+
+    S3 -. "AWS上のファイル管理" .-> CLOUD
+    IAM -. "AWSアクセス管理" .-> CLOUD
+
+    M --> N["GitHub<br/>README・技術資料・成果の公開"]
+
 
 ## 4. ディレクトリ構成
 
