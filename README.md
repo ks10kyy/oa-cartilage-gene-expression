@@ -83,7 +83,7 @@ bioinformatics/
 │   └── processed/
 ├── docs/
 │   ├── analytics/
-│   │   ├── 解析手法.md
+│   │   ├── 解析方法.md
 │   │   ├── 解析結果.md
 │   │   ├── 考察.md
 │   │   ├── 参考文献.md
@@ -105,7 +105,7 @@ bioinformatics/
 各解析とデータ管理の詳細は、以下を参照してください。
 
 [データ分析TOP（analytics）](docs/analytics/)
-- [解析手法](docs/analytics/解析手法.md)
+- [解析方法](docs/analytics/解析方法.md)
 - [解析結果](docs/analytics/解析結果.md)
 - [考察](docs/analytics/考察.md)
 - [参考文献](docs/analytics/参考文献.md)
