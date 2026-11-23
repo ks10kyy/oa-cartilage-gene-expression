@@ -72,7 +72,7 @@ flowchart TD
     IAM -. "AWSアクセス管理" .-> CLOUD
 
     M --> N["GitHub<br/>README・技術資料・成果の公開"]
-
+```
 
 ## 4. ディレクトリ構成
 
