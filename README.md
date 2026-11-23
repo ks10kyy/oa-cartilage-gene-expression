@@ -13,14 +13,25 @@
 
 ## 6. 使用技術・ツール
 
-| 分類 | 使用技術 |
+## 使用技術・ツール
+
+| 分類 | 使用技術・ツール |
 |---|---|
-| プログラミング言語 | R、Python(前処理) |
+| プログラミング言語 | R、Python |
 | 統計解析 | DESeq2 |
 | 機能解析 | clusterProfiler、org.Hs.eg.db |
 | データ可視化 | ggplot2 |
+| データ前処理 | Python、pandas |
+| データソース | NCBI GEO（GSE114007） |
 | 開発環境 | WSL Ubuntu、JupyterLab |
-| データソース | NCBI GEO |
+| データベース | PostgreSQL |
+| データベース操作 | SQL、psql |
+| データベース移行 | pg_dump、pg_restore |
+| クラウドデータベース | Amazon RDS for PostgreSQL |
+| クラウドストレージ | Amazon S3 |
+| クラウドアクセス管理 | AWS IAM |
+| クラウド基盤 | Amazon Web Services（AWS） |
+| バージョン管理 | Git、GitHub |
 
 ## 7. ディレクトリ構成
 
