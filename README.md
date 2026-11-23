@@ -9,11 +9,7 @@
 バイオインフォマティクスの解析工程：RおよびPythonによるデータ処理、統計解析、可視化を実践し、データから生物学的な特徴を読み取ること。
 そして、分析結果を再利用可能な形で管理するとともに、データベース構築からクラウド移行、移行後のデータ整合性確認までの一連の工程を実践することを目的としています。
 
-
-
-## 6. 使用技術・ツール
-
-## 使用技術・ツール
+## 2. 使用技術・ツール
 
 | 分類 | 使用技術・ツール |
 |---|---|
@@ -33,7 +29,18 @@
 | クラウド基盤 | Amazon Web Services（AWS） |
 | バージョン管理 | Git、GitHub |
 
-## 7. ディレクトリ構成
+## 3. フローチャート
+
+flowchart TD
+    A["遺伝子発現データ分析<br/>Python・R"] --> B["分析結果CSV"]
+    B --> C["Amazon S3<br/>ファイル保管"]
+    B --> D["ローカル PostgreSQL"]
+    D --> E["pg_dump<br/>バックアップ"]
+    E --> F["pg_restore"]
+    F --> G["Amazon RDS<br/>PostgreSQL"]
+    G --> H["SQLによる検証"]
+
+## 4. ディレクトリ構成
 
 ```text
 bioinformatics/
@@ -45,7 +52,8 @@ bioinformatics/
 │   │   ├── methods.md
 │   │   ├── results.md
 │   │   ├── discussion.md
-│   │   └── references.md
+│   │   ├── references.md
+│   │   └── README.md
 │   └── data_management/
 │       ├── AWS構築・データ移行.md
 │       ├── データベース設計.md
@@ -57,7 +65,7 @@ bioinformatics/
 └── README.md
 ```
 
-## 8. 詳細資料
+## 5. 詳細資料
 
 各解析とデータ管理の詳細は、以下を参照してください。
 
@@ -72,10 +80,3 @@ bioinformatics/
 - [データベース設計](docs/data_management/データベース設計.md)
 - [問題と改善方法](docs/data_management/問題と改善方法.md)
 
-## 9. 今後の展望
-
-今後はAWSを利用したクラウド環境の構築、データベースによるデータ管理などを追加し、解析からデータ管理まで一貫した実践的なポートフォリオへの発展を目指します。
-
----
-
-**プロジェクト状況：初期解析および基本ドキュメント作成完了**
