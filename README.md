@@ -83,10 +83,10 @@ bioinformatics/
 │   └── processed/
 ├── docs/
 │   ├── analytics/
-│   │   ├── methods.md
-│   │   ├── results.md
-│   │   ├── discussion.md
-│   │   ├── references.md
+│   │   ├── 解析手法.md
+│   │   ├── 解析結果.md
+│   │   ├── 考察.md
+│   │   ├── 参考文献.md
 │   │   └── README.md
 │   └── data_management/
 │       ├── AWS構築・データ移行.md
@@ -105,10 +105,10 @@ bioinformatics/
 各解析とデータ管理の詳細は、以下を参照してください。
 
 [データ分析TOP（analytics）](docs/analytics/)
-- [解析手法（methods）](docs/analytics/methods.md)
-- [解析結果（Results）](docs/analytics/results.md)
-- [考察・解析上の制約（Discussion）](docs/analytics/discussion.md)
-- [参考文献（References）](docs/analytics/references.md)
+- [解析手法](docs/analytics/methods.md)
+- [解析結果](docs/analytics/results.md)
+- [考察](docs/analytics/discussion.md)
+- [参考文献](docs/analytics/references.md)
 
 [データ管理TOP（data_management）](docs/data_management/)
 - [AWS構築・データ移行](docs/data_management/AWS構築・データ移行.md)
