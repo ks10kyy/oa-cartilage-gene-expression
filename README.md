@@ -83,16 +83,17 @@ bioinformatics/
 │   ├── raw/
 │   └── processed/
 ├── docs/
-│   ├── [データ分析TOP_README.md（analytics）](docs/analytics/)
-│   │   ├── [解析手法（methods）](docs/analytics/methods.md)
-│   │   ├── [解析結果（Results）](docs/analytics/results.md)
-│   │   ├── [考察・解析上の制約（Discussion）](docs/analytics/discussion.md)
-│   │   └── [参考文献（References）](docs/analytics/references.md)
-│   │   
-│   └── [データ管理TOP_README.md（data_management）](docs/data_management/)
-│       ├── [AWS構築・データ移行](docs/data_management/AWS構築・データ移行.md)
-│       ├── [データベース設計](docs/data_management/データベース設計.md)
-│       └──　[問題と改善方法](docs/data_management/問題と改善方法.md)
+│   ├── analytics/
+│   │   ├── methods.md
+│   │   ├── results.md
+│   │   ├── discussion.md
+│   │   ├── references.md
+│   │   └── README.md
+│   └── data_management/
+│       ├── AWS構築・データ移行.md
+│       ├── データベース設計.md
+│       ├── 問題と改善方法.md
+│       └── README.md
 │       
 ├── notebooks/
 ├── scripts/
