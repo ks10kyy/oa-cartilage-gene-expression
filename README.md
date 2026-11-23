@@ -77,7 +77,7 @@ flowchart TD
 ## 4. ディレクトリ構成・詳細資料
 各解析とデータ管理の詳細は、以下のリンクを参照してください。
 
-```text
+
 bioinformatics/
 ├── data/
 │   ├── raw/
@@ -98,7 +98,7 @@ bioinformatics/
 ├── scripts/
 ├── results/
 └── README.md
-```
+
 
 ## 5. 詳細資料
 
