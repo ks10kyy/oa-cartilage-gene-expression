@@ -29,8 +29,11 @@
 | クラウド基盤 | Amazon Web Services（AWS） |
 | バージョン管理 | Git、GitHub |
 
-## 3. フローチャート
+## 3. プロジェクト全体の流れ
+遺伝子発現データの分析から、データベース管理、クラウド環境への移行までを一連の流れとして実施しました。
+全体構成を示します。
 
+```mermaid
 flowchart TD
     A["遺伝子発現データ分析<br/>Python・R"] --> B["分析結果CSV"]
     B --> C["Amazon S3<br/>ファイル保管"]
@@ -39,6 +42,7 @@ flowchart TD
     E --> F["pg_restore"]
     F --> G["Amazon RDS<br/>PostgreSQL"]
     G --> H["SQLによる検証"]
+     ```mermaid
 
 ## 4. ディレクトリ構成
 
